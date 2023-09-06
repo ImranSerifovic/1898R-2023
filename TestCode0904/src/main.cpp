@@ -10,6 +10,7 @@
 // Left2                motor         13              
 // Inertial21           inertial      21              
 // Controller1          controller                    
+// Cata                 motor         3               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -70,10 +71,13 @@ int current_auton_selection = 0;
 bool auto_started = false;
 
 void pre_auton(void) {
-  
   vexcodeInit();
   default_constants();
 
+  //set default speeds
+  Cata.setVelocity(100.0, percent);
+  Cata.setStopping(brake);
+  Intake.setVelocity(100.0, percent);
   while(auto_started == false){            //Changing the names below will only change their names on the
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
@@ -157,12 +161,17 @@ void usercontrol(void) {
 
   while (1) {
     
-    
+    // intake code
     if (Controller1.ButtonR1.pressing()) {
       Intake.spin(forward, 100.0, volt);
     } 
     if (Controller1.ButtonR2.pressing()) {
       Intake.spin(reverse, 100.0, volt);
+    } 
+
+    // cata code
+    if (Controller1.ButtonL1.pressing()) {
+      Cata.spinFor(forward, 180.0, degrees, true);
     } 
     
     chassis.control_arcade();
@@ -182,11 +191,13 @@ int main() {
   Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
-  pre_auton();
 
+  wait(15, msec);
+  pre_auton();
 
   while (true) {
     wait(100, msec);
   }
+
 }
 /*---------------------------------------------------------------------------*/

@@ -10,6 +10,7 @@ extern motor Left1;
 extern motor Left2;
 extern inertial Inertial21;
 extern controller Controller1;
+extern motor Cata;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
