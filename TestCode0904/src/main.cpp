@@ -77,7 +77,7 @@ void pre_auton(void) {
   //set default speeds
   Cata.setVelocity(100.0, percent);
   Cata.setStopping(brake);
-  Intake.setVelocity(100.0, percent);
+  //Intake.setVelocity(100.0, percent);
   while(auto_started == false){            //Changing the names below will only change their names on the
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
