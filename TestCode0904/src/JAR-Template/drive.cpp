@@ -362,7 +362,6 @@ void Drive::control_arcade(){
   float turn = deadband(controller(primary).Axis1.value(), 5);
   DriveL.spin(fwd, to_volt(throttle+turn), volt);
   DriveR.spin(fwd, to_volt(throttle-turn), volt);
-  Intake.spin(reverse, 100.0, volt);
 }
 
 void Drive::control_holonomic(){

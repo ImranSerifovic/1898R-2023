@@ -3,7 +3,6 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Intake               motor         11              
 // Right1               motor         1               
 // Right2               motor         2               
 // Left1                motor         12              
@@ -11,6 +10,7 @@
 // Inertial21           inertial      21              
 // Controller1          controller                    
 // Cata                 motor         3               
+// Intake               motor         19              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -77,13 +77,12 @@ void pre_auton(void) {
   //set default speeds
   Cata.setVelocity(100.0, percent);
   Cata.setStopping(brake);
-  //Intake.setVelocity(100.0, percent);
+  
   while(auto_started == false){            //Changing the names below will only change their names on the
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
         Brain.Screen.printAt(50, 50, "Drive Test");
-        //Testing intake: Intake.spin(forward, 100, voltageUnits::volt);
         break;
       case 1:
         Brain.Screen.printAt(50, 50, "Drive Test");
@@ -157,17 +156,22 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 //Driver period code
 void usercontrol(void) {
-  
+  Intake.setVelocity(100, percentUnits::pct);
 
   while (1) {
+
+    
     
     // intake code
     if (Controller1.ButtonR1.pressing()) {
-      Intake.spin(forward, 100.0, volt);
+      Intake.spin(forward, 100,  voltageUnits::volt);
     } 
-    if (Controller1.ButtonR2.pressing()) {
-      Intake.spin(reverse, 100.0, volt);
+    else if (Controller1.ButtonR2.pressing()) {
+       Intake.spin(reverse, 100,  voltageUnits::volt);
     } 
+    else {
+      Intake.stop();
+    }
 
     // cata code
     if (Controller1.ButtonL1.pressing()) {
