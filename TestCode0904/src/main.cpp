@@ -3,14 +3,14 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Right1               motor         1               
-// Right2               motor         2               
-// Left1                motor         12              
-// Left2                motor         13              
+// Right1               motor         9               
+// Right2               motor         10              
+// Left1                motor         1               
+// Left2                motor         2               
 // Inertial21           inertial      21              
 // Controller1          controller                    
-// Cata                 motor         3               
-// Intake               motor         19              
+// Intake               motor         3               
+// Cata                 motor_group   11, 20          
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -178,7 +178,7 @@ void usercontrol(void) {
       Cata.spinFor(forward, 180.0, degrees, true);
     } 
     
-    chassis.control_arcade();
+    chassis.control_tank();
 
 
     wait(20, msec);
