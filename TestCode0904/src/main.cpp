@@ -3,14 +3,13 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Right1               motor         9               
-// Right2               motor         10              
-// Left1                motor         1               
-// Left2                motor         2               
-// Inertial21           inertial      21              
+// Right1               motor         3               
+// Right2               motor         4               
+// Left1                motor         12              
+// Left2                motor         13              
 // Controller1          controller                    
-// Intake               motor         3               
-// Cata                 motor_group   11, 20          
+// Intake               motor         2               
+// Cata                 motor_group   1, 21           
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
