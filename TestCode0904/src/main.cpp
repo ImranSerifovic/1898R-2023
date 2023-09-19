@@ -35,7 +35,7 @@ PORT21,
 3.25,
 
 //External ratio,input teeth/output teeth.
-0.6,
+1.6,
 
 //Useless stuff for tracking past here
 
@@ -56,7 +56,7 @@ PORT3,     -PORT4,
 /*---------------------------------------------------------------------------*/
 //put the positive distance from the center of the robot to the right side of the drive.
 //This distance is in inches:
-6,
+6.5,
 ///this the value ^
 1,
 

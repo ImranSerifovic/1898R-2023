@@ -375,8 +375,8 @@ void Drive::control_holonomic(){
 }
 
 void Drive::control_tank(){
-  float leftthrottle = deadband(controller(primary).Axis3.value(), 5);
-  float rightthrottle = deadband(controller(primary).Axis2.value(), 5);
+  float leftthrottle = deadband(controller(primary).Axis3.value(), 20);
+  float rightthrottle = deadband(controller(primary).Axis2.value(), 20);
   DriveL.spin(fwd, to_volt(leftthrottle), volt);
   DriveR.spin(fwd, to_volt(rightthrottle), volt);
 }
