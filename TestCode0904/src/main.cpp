@@ -10,14 +10,17 @@
 // Controller1          controller                    
 // Intake               motor         4               
 // Cata                 motor_group   1, 21           
+// LeftFlap             digital_out   A               
+// RightFlap            digital_out   H               
+// PullBack             digital_out   G               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
 competition Competition;
 
-
-
-
+/*---------------------------------------------------------------------------*/
+/*                            Drive Stuff                                    */
+/*---------------------------------------------------------------------------*/
 Drive chassis(
 
 ZERO_TRACKER_NO_ODOM,
@@ -51,11 +54,8 @@ PORT3,     -PORT4,
 3,
 
 2.75,
-/*---------------------------------------------------------------------------*/
-/*                    Remeasure this!!!!   - IMMY                            */
-/*---------------------------------------------------------------------------*/
+
 //put the positive distance from the center of the robot to the right side of the drive.
-//This distance is in inches:
 6.5,
 ///this the value ^
 1,
@@ -114,7 +114,11 @@ void pre_auton(void) {
     task::sleep(10);
   }
 }
+/*---------------------------------------------------------------------------*/
 
+/*---------------------------------------------------------------------------*/
+/*                               Auton Functions                             */
+/*---------------------------------------------------------------------------*/
 void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
@@ -144,24 +148,66 @@ void autonomous(void) {
       break;
  }
 }
+/*---------------------------------------------------------------------------*/
+
 
 /*---------------------------------------------------------------------------*/
+/*                                                                           */
 /*                                                                           */
 /*                              User Control Task                            */
 /*                                                                           */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+
+
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              Flap Functions                               */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+/*                              Intake Pneumatic                             */
+/*---------------------------------------------------------------------------*/
+int pressed2 = 0;
+void PullBackFunc() {
+  pressed2++;
+  if(pressed2%2 == 0) {
+        PullBack.set(false);
+      }
+      else {
+        PullBack.set(true);
+      }
+
+}
+/*---------------------------------------------------------------------------*/
+/*                              Side Flaps                                   */
+/*---------------------------------------------------------------------------*/
+int pressed =0;
+void Flaps() {
+      pressed++;
+      if(pressed%2 == 0) {
+        LeftFlap.set(true);
+        RightFlap.set(true);
+      }
+      else {
+        LeftFlap.set(false);
+        RightFlap.set(false);
+      }
+}
 /*---------------------------------------------------------------------------*/
 
 
 /*---------------------------------------------------------------------------*/
-//Driver period code
+/*                                                                           */
+/*                              Driver Code                                  */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
 void usercontrol(void) {
-  Intake.setVelocity(100, percentUnits::pct);
-
   while (1) {
-
-    
-    
-    // intake code
+    /*---------------------------------------------------------------------------*/
+    /*                              Intake Code                                  */
+    /*---------------------------------------------------------------------------*/
+    Intake.setVelocity(100, percentUnits::pct);
     if (Controller1.ButtonR1.pressing()) {
       Intake.spin(forward, 100,  voltageUnits::volt);
     } 
@@ -171,12 +217,21 @@ void usercontrol(void) {
     else {
       Intake.stop();
     }
-
-    // cata code
+    /*---------------------------------------------------------------------------*/
+    /*                              Cata code                                    */
+    /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonL1.pressing()) {
       Cata.spinFor(forward, 180.0, degrees, true);
     } 
+    /*---------------------------------------------------------------------------*/
+    /*                                Flaps                                      */
+    /*---------------------------------------------------------------------------*/
+    Controller1.ButtonL2.pressed(Flaps);
+    //Uncomment when intake pneumatic function is done!
+    //(Controller1.ButtonDown.pressed(PullBackFunc);
+    /*---------------------------------------------------------------------------*/
     
+    //Driving method
     chassis.control_tank();
 
 
@@ -189,6 +244,9 @@ void usercontrol(void) {
 
 /*---------------------------------------------------------------------------*/
 int main() {
+  //set pneumatics to false
+  LeftFlap.set(false);
+  RightFlap.set(false);
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
@@ -201,6 +259,5 @@ int main() {
   while (true) {
     wait(100, msec);
   }
-
 }
 /*---------------------------------------------------------------------------*/

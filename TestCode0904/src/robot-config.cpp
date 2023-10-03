@@ -17,6 +17,9 @@ motor Intake = motor(PORT4, ratio6_1, true);
 motor CataMotorA = motor(PORT1, ratio36_1, true);
 motor CataMotorB = motor(PORT21, ratio36_1, false);
 motor_group Cata = motor_group(CataMotorA, CataMotorB);
+digital_out LeftFlap = digital_out(Brain.ThreeWirePort.A);
+digital_out RightFlap = digital_out(Brain.ThreeWirePort.H);
+digital_out PullBack = digital_out(Brain.ThreeWirePort.G);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
