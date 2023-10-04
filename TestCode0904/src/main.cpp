@@ -221,6 +221,7 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonL1.pressing()) {
+      // Cata.spinFor(reverse, 180.0, degrees, true);
       Cata.spinFor(forward, 180.0, degrees, true);
     } 
     /*---------------------------------------------------------------------------*/
