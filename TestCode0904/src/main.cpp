@@ -1,5 +1,4 @@
 #include "vex.h"
-//Devan was here
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
@@ -72,12 +71,7 @@ bool auto_started = false;
 void pre_auton(void) {
   vexcodeInit();
   default_constants();
-
-  //set default speeds
-  Cata.setVelocity(100.0, percent);
-  Cata.setStopping(brake);
-  Cata.spinFor(forward, 75, degrees);
-
+  
   while(auto_started == false){            //Changing the names below will only change their names on the
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
@@ -122,6 +116,11 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
   auto_started = true;
+
+  // all autons start with pulling back the cata ready to fire
+  Cata.spinFor(90, degrees);
+
+
   switch(current_auton_selection){  
     case 0:
       drive_test(); 
@@ -183,10 +182,10 @@ void PullBackFunc() {
 /*---------------------------------------------------------------------------*/
 /*                              Side Flaps                                   */
 /*---------------------------------------------------------------------------*/
-int pressed =0;
+bool open = false;
 void Flaps() {
-      pressed++;
-      if(pressed%2 == 0) {
+      open = !open;
+      if(open) {
         LeftFlap.set(true);
         RightFlap.set(true);
       }
@@ -222,7 +221,6 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonL1.pressing()) {
-      // Cata.spinFor(reverse, 180.0, degrees, true);
       Cata.spinFor(forward, 180.0, degrees, true);
     } 
     /*---------------------------------------------------------------------------*/
@@ -232,6 +230,7 @@ void usercontrol(void) {
     //Uncomment when intake pneumatic function is done!
     //(Controller1.ButtonDown.pressed(PullBackFunc);
     /*---------------------------------------------------------------------------*/
+    
     //Driving method
     chassis.control_tank();
 
@@ -248,6 +247,11 @@ int main() {
   //set pneumatics to false
   LeftFlap.set(false);
   RightFlap.set(false);
+
+  //set default catapult speed / braking
+  Cata.setVelocity(100.0, percent);
+  Cata.setStopping(brake);
+
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
