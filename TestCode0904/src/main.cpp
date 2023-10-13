@@ -67,6 +67,7 @@ PORT3,     -PORT4,
 
 int current_auton_selection = 0;
 bool auto_started = false;
+int start_cata_rotation = 112;
 
 void pre_auton(void) {
   vexcodeInit();
@@ -118,8 +119,7 @@ void autonomous(void) {
   auto_started = true;
 
   // all autons start with pulling back the cata ready to fire
-  Cata.spinFor(90, degrees);
-
+  Cata.spinFor(start_cata_rotation, degrees);
 
   switch(current_auton_selection){  
     case 0:
@@ -203,11 +203,17 @@ void Flaps() {
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 void usercontrol(void) {
+
+  if(!auto_started) {
+    // for testing and driver skills 
+    // (otherwise, this will happen in void autonomous)
+    Cata.spinFor(start_cata_rotation, degrees);
+  }
+
   while (1) {
     /*---------------------------------------------------------------------------*/
     /*                              Intake Code                                  */
     /*---------------------------------------------------------------------------*/
-    Intake.setVelocity(100, percentUnits::pct);
     if (Controller1.ButtonR1.pressing()) {
       Intake.spin(forward, 100,  voltageUnits::volt);
     } 
@@ -221,7 +227,9 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonL1.pressing()) {
-      Cata.spinFor(forward, 180.0, degrees, true);
+      Cata.spinFor(forward, 75.0, degrees);
+      wait(0.1, seconds);
+      Cata.spinFor(forward, 105.0, degrees);
     } 
     /*---------------------------------------------------------------------------*/
     /*                                Flaps                                      */
@@ -251,6 +259,7 @@ int main() {
   //set default catapult speed / braking
   Cata.setVelocity(100.0, percent);
   Cata.setStopping(brake);
+  Intake.setVelocity(100, percentUnits::pct);
 
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
