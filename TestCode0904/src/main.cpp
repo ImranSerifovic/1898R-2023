@@ -12,6 +12,7 @@
 // LeftFlap             digital_out   A               
 // RightFlap            digital_out   H               
 // PullBack             digital_out   G               
+// Inertial5            inertial      5               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -31,7 +32,7 @@ motor_group(Left1, Left2),
 motor_group(Right1, Right2),
 
 //Port number of inertial sensor. Make sure to put PORT in front of the number
-PORT21,
+PORT5,
 
 //Wheel diameter
 3.25,

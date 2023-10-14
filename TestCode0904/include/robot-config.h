@@ -13,6 +13,7 @@ extern motor_group Cata;
 extern digital_out LeftFlap;
 extern digital_out RightFlap;
 extern digital_out PullBack;
+extern inertial Inertial5;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
