@@ -67,7 +67,8 @@ PORT3,     -PORT4,
 
 int current_auton_selection = 0;
 bool auto_started = false;
-int start_cata_rotation = 112;
+//  int start_cata_rotation = 112;
+ int start_cata_rotation = 117;
 
 void pre_auton(void) {
   vexcodeInit();
@@ -227,8 +228,10 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonL1.pressing()) {
+      Cata.setVelocity(30, percent); 
       Cata.spinFor(forward, 75.0, degrees);
-      wait(0.1, seconds);
+      // wait(0.1, seconds);
+      Cata.setVelocity(100, percent); 
       Cata.spinFor(forward, 105.0, degrees);
     } 
     /*---------------------------------------------------------------------------*/
@@ -240,7 +243,8 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     
     //Driving method
-    chassis.control_tank();
+    // chassis.control_tank();
+    chassis.control_arcade();
 
 
     wait(20, msec);
