@@ -79,7 +79,7 @@ void pre_auton(void) {
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "fuck face");
         break;
       case 1:
         Brain.Screen.printAt(50, 50, "Drive Test");
@@ -121,7 +121,10 @@ void autonomous(void) {
   auto_started = true;
 
   // all autons start with pulling back the cata ready to fire
-  Cata.spinFor(start_cata_rotation, degrees);
+  
+  /*TEmporary*/
+
+  //Cata.spinFor(start_cata_rotation, degrees);
 
   switch(current_auton_selection){  
     case 0:
