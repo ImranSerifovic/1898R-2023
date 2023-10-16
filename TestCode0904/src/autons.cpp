@@ -10,7 +10,7 @@ void default_constants(){
 
 
   chassis.set_turn_constants(12, .1, .005, 0.5, 15);
-  chassis.set_drive_constants(10, 1.5, 0, 0, 0);
+  chassis.set_drive_constants(10, 0.5, 100, 3, 0);
 }
 
 void odom_constants(){
@@ -24,9 +24,14 @@ void drive_test(){
   chassis.drive_distance(12);
   chassis.drive_distance(18);
   chassis.drive_distance(-36);*/
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(20);
-
+  chassis.drive_distance(100);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(100);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(100);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(100);
+  chassis.turn_to_angle(0);
 }
 
 void turn_test(){
