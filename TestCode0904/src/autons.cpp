@@ -10,7 +10,17 @@ void default_constants(){
 
 
   chassis.set_turn_constants(12, .1, .005, 0.5, 15);
-  chassis.set_drive_constants(10, 0.5, 100, 3, 0);
+  chassis.set_drive_constants(12, 0.5, 100, 3, 0);
+}
+
+void skills(){
+  while(true) {
+    Cata.setVelocity(30, percent); 
+    Cata.spinFor(forward, 75.0, degrees);
+    // wait(0.1, seconds);
+    Cata.setVelocity(100, percent); 
+    Cata.spinFor(forward, 105.0, degrees);
+  }
 }
 
 void odom_constants(){

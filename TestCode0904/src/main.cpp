@@ -79,7 +79,7 @@ void pre_auton(void) {
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "fuck face");
+        Brain.Screen.printAt(50, 50, "Skills");
         break;
       case 1:
         Brain.Screen.printAt(50, 50, "Drive Test");
@@ -124,11 +124,11 @@ void autonomous(void) {
   
   /*TEmporary*/
 
-  //Cata.spinFor(start_cata_rotation, degrees);
+  Cata.spinFor(start_cata_rotation, degrees);
 
   switch(current_auton_selection){  
     case 0:
-      drive_test(); 
+      skills(); 
       break;        
     case 1:         
       drive_test();
@@ -207,6 +207,7 @@ void Flaps() {
 /*                              Driver Code                                  */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
+bool up = false;
 void usercontrol(void) {
 
   if(!auto_started) {
@@ -232,6 +233,21 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonL1.pressing()) {
+      if(up) {
+        Cata.setVelocity(100, percent); 
+        Cata.spinFor(forward, 105.0, degrees);
+      }
+      else {
+        Cata.setVelocity(30, percent); 
+        Cata.spinFor(forward, 75.0, degrees);
+        Cata.setVelocity(100, percent);
+      }
+      up = !up;
+      
+      // wait(0.1, seconds);
+
+    } 
+    if (Controller1.ButtonL2.pressing()) {
       Cata.setVelocity(30, percent); 
       Cata.spinFor(forward, 75.0, degrees);
       // wait(0.1, seconds);
@@ -248,7 +264,7 @@ void usercontrol(void) {
     
     //Driving method
     // chassis.control_tank();
-    chassis.control_arcade();
+    chassis.control_tank();
 
 
     wait(20, msec);
