@@ -25,12 +25,13 @@ void drive_stop() {
 
 void skills(){
   while(true) {
-    Cata.setVelocity(30, percent); 
-    Cata.spinFor(forward, 75.0, degrees);
+    //Cata.setVelocity(30, percent); 
+    //Cata.spinFor(forward, 75.0, degrees);
     // wait(0.1, seconds);
-    Cata.setVelocity(100, percent); 
-    Cata.spinFor(forward, 105.0, degrees);
-
+    //Cata.setVelocity(100, percent); 
+    //Cata.spinFor(forward, 105.0, degrees);
+    chassis.turn_to_angle(360);
+    chassis.turn_to_angle(180);
   }
 }
 
@@ -43,11 +44,9 @@ void odom_constants(){
 /*---------------------------------------------------------------------------*/
 /*                            Launch Side AWP                                */
 /*---------------------------------------------------------------------------*/
-void drive_test(){
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(5);
+void close_side(){
   //Drive in front of goal and score
-  /*chassis.drive_distance(128);
+  chassis.drive_distance(148);
   chassis.turn_to_angle(270);
   Intake.spin(reverse);
   wait(0.4, seconds);
@@ -56,7 +55,7 @@ void drive_test(){
   Right2.spin(forward, 12, voltageUnits::volt);
   Left1.spin(forward, 12, voltageUnits::volt);
   Left2.spin(forward, 12, voltageUnits::volt);
-  wait(0.35, seconds);
+  wait(0.3, seconds);
   drive_stop();
   //Back up, point towards the match load zone, and drive over there
   Right1.spin(reverse, 6, voltageUnits::volt);
@@ -65,9 +64,20 @@ void drive_test(){
   Left2.spin(reverse, 6, voltageUnits::volt);
   wait(0.3, seconds);
   drive_stop();
-  chassis.turn_to_angle(215);
+  chassis.drive_distance(-18);
+  chassis.turn_to_angle(214);
+  chassis.drive_distance(128);
+  chassis.turn_to_angle(145);
+  RightFlap.set(true);
+  Right1.spin(forward, 10, voltageUnits::volt);
+  Right2.spin(forward, 10, voltageUnits::volt);
+  Left1.spin(forward, 6, voltageUnits::volt);
+  Left2.spin(forward, 6, voltageUnits::volt);
+
+  //chassis.turn_to_angle(215);
   //chassis.drive_distance(100);
-*/
+
+
 
 
 

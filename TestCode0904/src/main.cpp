@@ -11,6 +11,7 @@
 // Cata                 motor_group   1, 21           
 // RightFlap            digital_out   H               
 // Inertial5            inertial      5               
+// LeftFlap             digital_out   G               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -67,7 +68,7 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 //  int start_cata_rotation = 112;
-int start_cata_rotation = 112;
+int start_cata_rotation = 113;
 
 void pre_auton(void) {
   vexcodeInit();
@@ -126,10 +127,10 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      drive_test(); 
+      close_side(); 
       break;        
     case 1:         
-      drive_test();
+      close_side();
       break;
     case 2:
       turn_test();
@@ -185,17 +186,8 @@ void PullBackFunc() {
 /*---------------------------------------------------------------------------*/
 /*                              Side Flaps                                   */
 /*---------------------------------------------------------------------------*/
-bool open = false;
 void Flaps() {
-      open = !open;
-      if(open) {
-        
-        RightFlap.set(true);
-      }
-      else {
-        
-        RightFlap.set(false);
-      }
+    RightFlap.set(!RightFlap.value());
 }
 /*---------------------------------------------------------------------------*/
 
@@ -230,7 +222,7 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
-    if (Controller1.ButtonL2.pressing()) {
+    if (Controller1.ButtonDown.pressing()) {
       if(up) {
         Cata.setVelocity(100, percent); 
         Cata.spinFor(forward, 105.0, degrees);
@@ -241,9 +233,6 @@ void usercontrol(void) {
         Cata.setVelocity(100, percent);
       }
       up = !up;
-      
-      // wait(0.1, seconds);
-
     } 
     else if (Controller1.ButtonL1.pressing()) {
       Cata.setVelocity(30, percent); 
@@ -255,7 +244,7 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     /*                                Flaps                                      */
     /*---------------------------------------------------------------------------*/
-    // Controller1.ButtonL2.pressed(Flaps);
+     Controller1.ButtonL2.pressed(Flaps);
     //Uncomment when intake pneumatic function is done!
     //(Controller1.ButtonDown.pressed(PullBackFunc);
     /*---------------------------------------------------------------------------*/

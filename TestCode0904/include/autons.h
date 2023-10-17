@@ -7,7 +7,7 @@ extern Drive chassis;
 
 void default_constants();
 void skills();
-void drive_test();
+void close_side();
 void turn_test();
 void swing_test();
 void full_test();
