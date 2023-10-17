@@ -69,7 +69,7 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 //  int start_cata_rotation = 112;
- int start_cata_rotation = 117;
+int start_cata_rotation = 112;
 
 void pre_auton(void) {
   vexcodeInit();
@@ -232,7 +232,7 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
-    if (Controller1.ButtonL1.pressing()) {
+    if (Controller1.ButtonL2.pressing()) {
       if(up) {
         Cata.setVelocity(100, percent); 
         Cata.spinFor(forward, 105.0, degrees);
@@ -247,7 +247,7 @@ void usercontrol(void) {
       // wait(0.1, seconds);
 
     } 
-    if (Controller1.ButtonL2.pressing()) {
+    else if (Controller1.ButtonL1.pressing()) {
       Cata.setVelocity(30, percent); 
       Cata.spinFor(forward, 75.0, degrees);
       // wait(0.1, seconds);
@@ -257,7 +257,7 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     /*                                Flaps                                      */
     /*---------------------------------------------------------------------------*/
-    Controller1.ButtonL2.pressed(Flaps);
+    // Controller1.ButtonL2.pressed(Flaps);
     //Uncomment when intake pneumatic function is done!
     //(Controller1.ButtonDown.pressed(PullBackFunc);
     /*---------------------------------------------------------------------------*/
