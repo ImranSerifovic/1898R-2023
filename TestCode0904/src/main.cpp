@@ -9,9 +9,7 @@
 // Controller1          controller                    
 // Intake               motor         4               
 // Cata                 motor_group   1, 21           
-// LeftFlap             digital_out   A               
 // RightFlap            digital_out   H               
-// PullBack             digital_out   G               
 // Inertial5            inertial      5               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
@@ -128,7 +126,7 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      skills(); 
+      drive_test(); 
       break;        
     case 1:         
       drive_test();
@@ -177,10 +175,10 @@ int pressed2 = 0;
 void PullBackFunc() {
   pressed2++;
   if(pressed2%2 == 0) {
-        PullBack.set(false);
+        //PullBack.set(false);
       }
       else {
-        PullBack.set(true);
+        //PullBack.set(true);
       }
 
 }
@@ -191,11 +189,11 @@ bool open = false;
 void Flaps() {
       open = !open;
       if(open) {
-        LeftFlap.set(true);
+        
         RightFlap.set(true);
       }
       else {
-        LeftFlap.set(false);
+        
         RightFlap.set(false);
       }
 }

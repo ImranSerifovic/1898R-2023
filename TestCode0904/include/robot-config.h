@@ -10,9 +10,7 @@ extern motor Left2;
 extern controller Controller1;
 extern motor Intake;
 extern motor_group Cata;
-extern digital_out LeftFlap;
 extern digital_out RightFlap;
-extern digital_out PullBack;
 extern inertial Inertial5;
 
 /**

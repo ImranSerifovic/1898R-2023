@@ -7,10 +7,20 @@ void default_constants(){
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
   chassis.set_turn_exit_conditions(1, 300, 3000);
   chassis.set_swing_exit_conditions(1, 300, 3000);
+  //drive pid, this is good
+  chassis.set_drive_constants(12, 0.5, 200, 3, 0);
 
+  //turn pid constants, mostly done but not fully yet
+  chassis.set_turn_constants(12, .08, .0052, 0, 15);
+  
+}
+//Stops Drivetrain
+void drive_stop() {
+  Right1.stop();
+  Right2.stop();
+  Left1.stop();
+  Left2.stop();
 
-  chassis.set_turn_constants(12, .1, .005, 0.5, 15);
-  chassis.set_drive_constants(12, 0.5, 100, 3, 0);
 }
 
 void skills(){
@@ -20,6 +30,7 @@ void skills(){
     // wait(0.1, seconds);
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
+
   }
 }
 
@@ -29,21 +40,40 @@ void odom_constants(){
   chassis.drive_settle_error = 3;
 }
 
+/*---------------------------------------------------------------------------*/
+/*                            Launch Side AWP                                */
+/*---------------------------------------------------------------------------*/
 void drive_test(){
-  /*chassis.drive_distance(6);
-  chassis.drive_distance(12);
-  chassis.drive_distance(18);
-  chassis.drive_distance(-36);*/
-  chassis.drive_distance(100);
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(100);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(100);
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(100);
-  chassis.turn_to_angle(0);
-}
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(5);
+  //Drive in front of goal and score
+  /*chassis.drive_distance(128);
+  chassis.turn_to_angle(270);
+  Intake.spin(reverse);
+  wait(0.4, seconds);
+  Intake.stop();
+  Right1.spin(forward, 12, voltageUnits::volt);
+  Right2.spin(forward, 12, voltageUnits::volt);
+  Left1.spin(forward, 12, voltageUnits::volt);
+  Left2.spin(forward, 12, voltageUnits::volt);
+  wait(0.35, seconds);
+  drive_stop();
+  //Back up, point towards the match load zone, and drive over there
+  Right1.spin(reverse, 6, voltageUnits::volt);
+  Right2.spin(reverse, 6, voltageUnits::volt);
+  Left1.spin(reverse, 6, voltageUnits::volt);
+  Left2.spin(reverse, 6, voltageUnits::volt);
+  wait(0.3, seconds);
+  drive_stop();
+  chassis.turn_to_angle(215);
+  //chassis.drive_distance(100);
+*/
 
+
+
+
+}
+/*---------------------------------------------------------------------------*/      
 void turn_test(){
   chassis.turn_to_angle(5);
   chassis.turn_to_angle(30);
