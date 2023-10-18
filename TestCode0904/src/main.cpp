@@ -9,9 +9,9 @@
 // Controller1          controller                    
 // Intake               motor         4               
 // Cata                 motor_group   1, 21           
-// RightFlap            digital_out   H               
+// flaps                digital_out   H               
 // Inertial5            inertial      5               
-// LeftFlap             digital_out   G               
+// intake_piston        digital_out   G               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -67,7 +67,6 @@ PORT3,     -PORT4,
 
 int current_auton_selection = 0;
 bool auto_started = false;
-//  int start_cata_rotation = 112;
 int start_cata_rotation = 113;
 
 void pre_auton(void) {
@@ -174,20 +173,19 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 int pressed2 = 0;
 void PullBackFunc() {
-  pressed2++;
-  if(pressed2%2 == 0) {
-        //PullBack.set(false);
-      }
-      else {
-        //PullBack.set(true);
-      }
+  // starts in at beginning of game
+  // to stay in size
 
+  // flips whether we supply air to push out the intake 
+  intake_piston.set(!intake_piston.value());
 }
 /*---------------------------------------------------------------------------*/
 /*                              Side Flaps                                   */
 /*---------------------------------------------------------------------------*/
 void Flaps() {
-    RightFlap.set(!RightFlap.value());
+    // starts in at beginning of game
+    // flips whether flaps are in or out
+    flaps.set(!flaps.value());
 }
 /*---------------------------------------------------------------------------*/
 
@@ -226,11 +224,20 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonDown.pressing()) {
+      // this button is the less common cata control
       if(cata_rotation==UP || cata_rotation==HALFWAY) {
+        // pulls cata from all the way up (post-shot) to halfway down,
+        // or halfway down to all the way down (ready to intake)
+        // halfway down is to prevent intaking all the way, allowing
+        // us to move acorns by intaking and outtaking
         Cata.setVelocity(100, percent); 
         Cata.spinFor(forward, 52.5, degrees);
       }
       else {
+        // velocity @ 30% so the cata has time to shoot and recover from
+        // slight recoil off the foam bracing before the slipgear reengages
+        // which prevents the slipgear from changing its position relative to
+        // the gear on the catapult axle
         Cata.setVelocity(30, percent); 
         Cata.spinFor(forward, 75.0, degrees);
         Cata.setVelocity(100, percent);
@@ -239,22 +246,26 @@ void usercontrol(void) {
       cata_rotation%=3;
     } 
     else if (Controller1.ButtonL1.pressing()) {
+      // velocity @ 30% so the cata has time to shoot and recover from
+      // slight recoil off the foam bracing before the slipgear reengages
+      // which prevents the slipgear from changing its position relative to
+      // the gear on the catapult axle
+      // the cata starts down, spins until slip...
       Cata.setVelocity(30, percent); 
       Cata.spinFor(forward, 75.0, degrees);
-      // wait(0.1, seconds);
+
+      // and spins back so we can intake, all in ~0.75 seconds!
       Cata.setVelocity(100, percent); 
       Cata.spinFor(forward, 105.0, degrees);
     } 
     /*---------------------------------------------------------------------------*/
-    /*                                Flaps                                      */
+    /*                         Binding Pnematic Functions                        */
     /*---------------------------------------------------------------------------*/
-     Controller1.ButtonL2.pressed(Flaps);
-    //Uncomment when intake pneumatic function is done!
-    //(Controller1.ButtonDown.pressed(PullBackFunc);
+    Controller1.ButtonL2.pressed(Flaps);
+    Controller1.ButtonDown.pressed(PullBackFunc);
     /*---------------------------------------------------------------------------*/
     
     //Driving method
-    // chassis.control_tank();
     chassis.control_tank();
 
 
@@ -268,8 +279,8 @@ void usercontrol(void) {
 /*---------------------------------------------------------------------------*/
 int main() {
   //set pneumatics to false
-  LeftFlap.set(false);
-  RightFlap.set(false);
+  flaps.set(false);
+  intake_piston.set(false);
 
   //set default catapult speed / braking
   Cata.setVelocity(100.0, percent);
