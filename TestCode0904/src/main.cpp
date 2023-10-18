@@ -197,7 +197,10 @@ void Flaps() {
 /*                              Driver Code                                  */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
-bool up = false;
+int cata_rotation = 0;
+int DOWN = 0;
+int UP = 1;
+int HALFWAY = 2;
 void usercontrol(void) {
 
   if(!auto_started) {
@@ -223,16 +226,17 @@ void usercontrol(void) {
     /*                              Cata code                                    */
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonDown.pressing()) {
-      if(up) {
+      if(cata_rotation==UP || cata_rotation==HALFWAY) {
         Cata.setVelocity(100, percent); 
-        Cata.spinFor(forward, 105.0, degrees);
+        Cata.spinFor(forward, 52.5, degrees);
       }
       else {
         Cata.setVelocity(30, percent); 
         Cata.spinFor(forward, 75.0, degrees);
         Cata.setVelocity(100, percent);
       }
-      up = !up;
+      cata_rotation+=1;
+      cata_rotation%=3;
     } 
     else if (Controller1.ButtonL1.pressing()) {
       Cata.setVelocity(30, percent); 
@@ -282,7 +286,7 @@ int main() {
   pre_auton();
 
   while (true) {
-    wait(100, msec);
+    wait(100, msec);;
   }
 }
 /*---------------------------------------------------------------------------*/
