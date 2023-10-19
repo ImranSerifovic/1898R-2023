@@ -5,12 +5,10 @@ void default_constants(){
   chassis.set_heading_constants(6, .4, 0, 1, 0);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
-  chassis.set_turn_exit_conditions(1, 300, 3000);
+  chassis.set_turn_exit_conditions(2, 300, 3000);
   chassis.set_swing_exit_conditions(1, 300, 3000);
-  //drive pid, this is good
-  chassis.set_drive_constants(12, 0.5, 200, 3, 0);
 
-  //turn pid constants, mostly done but not fully yet
+  chassis.set_drive_constants(12, 0.5, 200, 3, 0);
   chassis.set_turn_constants(12, .08, .0052, 0, 15);
   
 }
@@ -22,17 +20,65 @@ void drive_stop() {
   Left2.stop();
 
 }
+void drive(int volts, bool go_forward) {
+  if(go_forward) {
+    Right1.spin(forward, volts, voltageUnits::volt);
+    Right2.spin(forward, volts, voltageUnits::volt);
+    Left1.spin(forward, volts, voltageUnits::volt);
+    Left2.spin(forward, volts, voltageUnits::volt);
+  }
+  else {
+    Right1.spin(reverse, volts, voltageUnits::volt);
+    Right2.spin(reverse, volts, voltageUnits::volt);
+    Left1.spin(reverse, volts, voltageUnits::volt);
+    Left2.spin(reverse, volts, voltageUnits::volt);
+  }
+}
+
+void setVelocity(int percentage) {
+    Right1.setVelocity(percentage, percent);
+    Right2.setVelocity(percentage, percent);
+    Left1.setVelocity(percentage, percent);
+    Left2.setVelocity(percentage, percent);
+}
 
 void skills(){
-  while(true) {
-    //Cata.setVelocity(30, percent); 
-    //Cata.spinFor(forward, 75.0, degrees);
-    // wait(0.1, seconds);
-    //Cata.setVelocity(100, percent); 
-    //Cata.spinFor(forward, 105.0, degrees);
-    chassis.turn_to_angle(360);
-    chassis.turn_to_angle(180);
+  flaps.set(true);
+  wait(0.1, seconds);
+  flaps.set(false);
+  drive(7, true);
+  wait(0.4, seconds);
+  drive_stop();
+  for(int i = 0; i<3; i++) {
+    Cata.setVelocity(30, percent); 
+    Cata.spinFor(forward, 75.0, degrees);
+    Cata.setVelocity(100, percent); 
+    Cata.spinFor(forward, 105.0, degrees);
   }
+  flaps.set(true);
+  chassis.drive_distance(-20, -135);
+  chassis.drive_distance(-60);
+  setVelocity(100);
+  drive(12, false);
+  wait(0.8, seconds);
+  drive_stop();
+  chassis.drive_distance(67, 180);
+  chassis.drive_distance(210, 188);
+  chassis.drive_distance(50, 172);
+  chassis.drive_distance(20, 60);
+  chassis.drive_distance(100);
+  chassis.drive_distance(50, 170);
+  flaps.set(true);
+  chassis.drive_distance(20, 170);
+  wait(2, seconds);
+  drive(12, true);
+  wait(3, seconds);
+
+  // chassis.drive_distance(200);
+  // chassis.turn_to_angle(-75);
+  // chassis.drive_distance(40);
+  // flaps.set(true);
+  // chassis.drive_distance(180, 15);
 }
 
 void odom_constants(){
@@ -68,7 +114,7 @@ void close_side(){
   chassis.turn_to_angle(214);
   chassis.drive_distance(128);
   chassis.turn_to_angle(145);
-  RightFlap.set(true);
+  flaps.set(true);
   Right1.spin(forward, 10, voltageUnits::volt);
   Right2.spin(forward, 10, voltageUnits::volt);
   Left1.spin(forward, 6, voltageUnits::volt);

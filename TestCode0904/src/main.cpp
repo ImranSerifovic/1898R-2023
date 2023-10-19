@@ -126,7 +126,7 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      close_side(); 
+      skills(); 
       break;        
     case 1:         
       close_side();
@@ -166,7 +166,7 @@ void autonomous(void) {
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
-/*                              Flap Functions                               */
+/*                              Pneumatic Functions                          */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 /*                              Intake Pneumatic                             */
