@@ -4,7 +4,7 @@ void default_constants(){
   
   chassis.set_heading_constants(6, .4, 0, 1, 0);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
-  chassis.set_drive_exit_conditions(2.5, 300, 5000);
+  chassis.set_drive_exit_conditions(1.5, 300, 5000);
   chassis.set_turn_exit_conditions(2, 300, 3000);
   chassis.set_swing_exit_conditions(1, 300, 3000);
 
@@ -50,7 +50,7 @@ void skills(){
   wait(0.4, seconds);
   drive_stop();
   wait(1, seconds);
-  for(int i = 0; i<3; i++) {
+  for(int i = 0; i<44; i++) {
     Cata.setVelocity(30, percent); 
     Cata.spinFor(forward, 75.0, degrees);
     wait(0.3, seconds);
@@ -65,9 +65,9 @@ void skills(){
   drive_stop();
   chassis.drive_distance(67, 180);
   chassis.drive_distance(210, 188);
-  chassis.drive_distance(50, 172);
+  chassis.drive_distance(55, 172);
   chassis.drive_distance(20, 60);
-  chassis.drive_distance(100);
+  chassis.drive_distance(80);
   chassis.drive_distance(50, 170);
   leftFlap.set(true);
   rightFlap.set(true);
