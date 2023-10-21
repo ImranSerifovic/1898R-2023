@@ -10,9 +10,11 @@ extern motor Left2;
 extern controller Controller1;
 extern motor Intake;
 extern motor_group Cata;
-extern digital_out flaps;
+extern digital_out leftFlap;
 extern inertial Inertial5;
 extern digital_out intake_piston;
+extern digital_out hang;
+extern digital_out rightFlap;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

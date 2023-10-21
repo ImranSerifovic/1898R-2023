@@ -43,20 +43,21 @@ void setVelocity(int percentage) {
 }
 
 void skills(){
-  flaps.set(true);
+  rightFlap.set(true);
   wait(0.1, seconds);
-  flaps.set(false);
+  rightFlap.set(false);
   drive(7, true);
   wait(0.4, seconds);
   drive_stop();
+  wait(1, seconds);
   for(int i = 0; i<3; i++) {
     Cata.setVelocity(30, percent); 
     Cata.spinFor(forward, 75.0, degrees);
+    wait(0.3, seconds);
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
-  flaps.set(true);
-  chassis.drive_distance(-20, -135);
+  chassis.drive_distance(-20, -125);
   chassis.drive_distance(-60);
   setVelocity(100);
   drive(12, false);
@@ -64,17 +65,20 @@ void skills(){
   drive_stop();
   chassis.drive_distance(67, 180);
   chassis.drive_distance(210, 188);
-  chassis.drive_distance(50, 172);
+  chassis.drive_distance(55, 172);
   chassis.drive_distance(20, 60);
-  chassis.drive_distance(100);
+  chassis.drive_distance(80);
   chassis.drive_distance(50, 170);
-  flaps.set(true);
-  chassis.drive_distance(20, 170);
-  wait(2, seconds);
+  leftFlap.set(true);
+  rightFlap.set(true);
   drive(12, true);
-  wait(3, seconds);
-
-  // chassis.drive_distance(200);
+  wait(1.5, seconds);
+  drive_stop();
+  chassis.drive_distance(-80);
+  chassis.turn_to_angle(150);
+  chassis.drive_distance(40, 180);
+  drive(12, true);
+  // chassis.drive_distance(200);fl
   // chassis.turn_to_angle(-75);
   // chassis.drive_distance(40);
   // flaps.set(true);
@@ -114,7 +118,8 @@ void close_side(){
   chassis.turn_to_angle(214);
   chassis.drive_distance(128);
   chassis.turn_to_angle(145);
-  flaps.set(true);
+  rightFlap.set(true);
+  leftFlap.set(true);
   Right1.spin(forward, 10, voltageUnits::volt);
   Right2.spin(forward, 10, voltageUnits::volt);
   Left1.spin(forward, 6, voltageUnits::volt);

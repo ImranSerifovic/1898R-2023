@@ -9,9 +9,11 @@
 // Controller1          controller                    
 // Intake               motor         4               
 // Cata                 motor_group   1, 21           
-// flaps                digital_out   H               
+// leftFlap             digital_out   G               
 // Inertial5            inertial      5               
-// intake_piston        digital_out   G               
+// intake_piston        digital_out   E               
+// hang                 digital_out   H               
+// rightFlap            digital_out   F               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -117,7 +119,7 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
   auto_started = true;
-
+  intake_piston.set(false);
   // all autons start with pulling back the cata ready to fire
   
   /*TEmporary*/
@@ -182,47 +184,21 @@ void PullBackFunc() {
 /*---------------------------------------------------------------------------*/
 /*                              Side Flaps                                   */
 /*---------------------------------------------------------------------------*/
-void Flaps() {
-    // starts in at beginning of game
-    // flips whether flaps are in or out
-    flaps.set(!flaps.value());
-}
-/*---------------------------------------------------------------------------*/
-
-
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              Driver Code                                  */
-/*                                                                           */
-/*---------------------------------------------------------------------------*/
 int cata_rotation = 0;
 int DOWN = 0;
 int UP = 1;
 int HALFWAY = 2;
-void usercontrol(void) {
 
-  if(!auto_started) {
-    // for testing and driver skills 
-    // (otherwise, this will happen in void autonomous)
-    Cata.spinFor(start_cata_rotation, degrees);
-  }
-
-  while (1) {
-    /*---------------------------------------------------------------------------*/
-    /*                              Intake Code                                  */
-    /*---------------------------------------------------------------------------*/
-    if (Controller1.ButtonR1.pressing()) {
-      Intake.spin(forward, 100,  voltageUnits::volt);
-    } 
-    else if (Controller1.ButtonR2.pressing()) {
-       Intake.spin(reverse, 100,  voltageUnits::volt);
-    } 
-    else {
-      Intake.stop();
-    }
-    /*---------------------------------------------------------------------------*/
-    /*                              Cata code                                    */
-    /*---------------------------------------------------------------------------*/
+void Flaps() {
+    // starts in at beginning of game
+    // flips whether flaps are in or out
+    leftFlap.set(!leftFlap.value());
+    rightFlap.set(!rightFlap.value());
+}
+void Hang() {
+  hang.set(!hang.value());
+}
+void cataDown() {
     if (Controller1.ButtonDown.pressing()) {
       // this button is the less common cata control
       if(cata_rotation==UP || cata_rotation==HALFWAY) {
@@ -245,7 +221,45 @@ void usercontrol(void) {
       cata_rotation+=1;
       cata_rotation%=3;
     } 
-    else if (Controller1.ButtonL1.pressing()) {
+}
+int counter = 0;
+void cataShoulder() {
+
+}
+/*---------------------------------------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              Driver Code                                  */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+void usercontrol(void) {
+  intake_piston.set(false);
+  if(!auto_started) {
+    // for testing and driver skills 
+    // (otherwise, this will happen in void autonomous)
+    Cata.spinFor(start_cata_rotation, degrees);
+  }
+
+  while (1) {
+    /*---------------------------------------------------------------------------*/
+    /*                              Intake Code                                  */
+    /*---------------------------------------------------------------------------*/
+    if (Controller1.ButtonR1.pressing()) {
+      Intake.spin(forward, 100,  voltageUnits::volt);
+    } 
+    else if (Controller1.ButtonR2.pressing()) {
+       Intake.spin(reverse, 100,  voltageUnits::volt);
+    } 
+    else {
+      Intake.stop();
+    }
+    /*---------------------------------------------------------------------------*/
+    /*                         Binding Functions                                 */
+    /*---------------------------------------------------------------------------*/
+    
+    if(Controller1.ButtonL1.pressing()) {
       // velocity @ 30% so the cata has time to shoot and recover from
       // slight recoil off the foam bracing before the slipgear reengages
       // which prevents the slipgear from changing its position relative to
@@ -257,17 +271,19 @@ void usercontrol(void) {
       // and spins back so we can intake, all in ~0.75 seconds!
       Cata.setVelocity(100, percent); 
       Cata.spinFor(forward, 105.0, degrees);
-    } 
-    /*---------------------------------------------------------------------------*/
-    /*                         Binding Pnematic Functions                        */
-    /*---------------------------------------------------------------------------*/
+      counter++;
+      Brain.Screen.clearScreen();
+      Brain.Screen.print(counter);
+    }
+    
     Controller1.ButtonL2.pressed(Flaps);
-    Controller1.ButtonDown.pressed(PullBackFunc);
+    Controller1.ButtonLeft.pressed(Hang);
+    Controller1.ButtonUp.pressed(PullBackFunc);
+    Controller1.ButtonL1.pressed(cataShoulder);
     /*---------------------------------------------------------------------------*/
     
     //Driving method
     chassis.control_tank();
-
 
     wait(20, msec);
                     
@@ -279,8 +295,10 @@ void usercontrol(void) {
 /*---------------------------------------------------------------------------*/
 int main() {
   //set pneumatics to false
-  flaps.set(false);
-  intake_piston.set(false);
+  leftFlap.set(false);
+  rightFlap.set(false);
+  hang.set(false);
+  intake_piston.set(true);
 
   //set default catapult speed / braking
   Cata.setVelocity(100.0, percent);
