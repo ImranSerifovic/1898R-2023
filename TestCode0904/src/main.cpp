@@ -58,7 +58,7 @@ PORT3,     -PORT4,
 
 //put the positive distance from the center of the robot to the right side of the drive.
 6.5,
-///this the value ^
+
 1,
 
 -2.75,
@@ -66,42 +66,39 @@ PORT3,     -PORT4,
 5.5
 
 );
-
-int current_auton_selection = 0;
-bool auto_started = false;
-int start_cata_rotation = 113;
-
+/*---------------------------------------------------------------------------*/
+/*                           Variable Declarations                           */
+/*---------------------------------------------------------------------------*/
+int current_auton_selection = 0;                                             
+bool auto_started = false;                                                   
+int start_cata_rotation = 113; 
+int cata_rotation = 0;
+int DOWN = 0;
+int UP = 1;
+int HALFWAY = 2;                                              
+/*---------------------------------------------------------------------------*/
+/*                            PRE-AUTON                                      */
+/*---------------------------------------------------------------------------*/
+//Period before match starts when bot is sitting on field
 void pre_auton(void) {
   vexcodeInit();
   default_constants();
   
-  while(auto_started == false){            //Changing the names below will only change their names on the
-    Brain.Screen.clearScreen();            //brain screen for auton selection.
-    switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
+  while(auto_started == false){            
+    switch(current_auton_selection){       
       case 0:
-        Brain.Screen.printAt(50, 50, "Skills");
+        Brain.Screen.printAt(50, 50, "Close Side AWP");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "Far Side AWP");
         break;
       case 2:
-        Brain.Screen.printAt(50, 50, "Turn Test");
+        Brain.Screen.printAt(50, 50, "Far Side Scoring");
         break;
       case 3:
-        Brain.Screen.printAt(50, 50, "Swing Test");
+        Brain.Screen.printAt(50, 50, "Auton Skills");
         break;
-      case 4:
-        Brain.Screen.printAt(50, 50, "Full Test");
-        break;
-      case 5:
-        Brain.Screen.printAt(50, 50, "Odom Test");
-        break;
-      case 6:
-        Brain.Screen.printAt(50, 50, "Tank Odom Test");
-        break;
-      case 7:
-        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
-        break;
+      
     }
     if(Brain.Screen.pressing()){
       while(Brain.Screen.pressing()) {}
@@ -114,12 +111,12 @@ void pre_auton(void) {
 }
 /*---------------------------------------------------------------------------*/
 
+
 /*---------------------------------------------------------------------------*/
 /*                               Auton Functions                             */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
   auto_started = true;
-  intake_piston.set(false);
   // all autons start with pulling back the cata ready to fire
   
   /*TEmporary*/
@@ -128,30 +125,11 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      skills(); 
-      break;        
-    case 1:         
       close_side();
-      break;
-    case 2:
-      turn_test();
-      break;
-    case 3:
-      swing_test();
-      break;
-    case 4:
-      full_test();
-      break;
-    case 5:
-      odom_test();
-      break;
-    case 6:
-      tank_odom_test();
-      break;
-    case 7:
-      holonomic_odom_test();
-      break;
+      //skills();
+      break;        
  }
+      
 }
 /*---------------------------------------------------------------------------*/
 
@@ -180,20 +158,19 @@ void PullBackFunc() {
 
   // flips whether we supply air to push out the intake 
   intake_piston.set(!intake_piston.value());
+
 }
 /*---------------------------------------------------------------------------*/
 /*                              Side Flaps                                   */
 /*---------------------------------------------------------------------------*/
-int cata_rotation = 0;
-int DOWN = 0;
-int UP = 1;
-int HALFWAY = 2;
+
 
 void Flaps() {
     // starts in at beginning of game
     // flips whether flaps are in or out
     leftFlap.set(!leftFlap.value());
     rightFlap.set(!rightFlap.value());
+    intake_piston.set(!intake_piston.value());
 }
 void Hang() {
   hang.set(!hang.value());
@@ -235,7 +212,8 @@ void cataShoulder() {
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 void usercontrol(void) {
-  intake_piston.set(false);
+
+  intake_piston.set(true);
   if(!auto_started) {
     // for testing and driver skills 
     // (otherwise, this will happen in void autonomous)
@@ -248,6 +226,8 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     if (Controller1.ButtonR1.pressing()) {
       Intake.spin(forward, 100,  voltageUnits::volt);
+      
+
     } 
     else if (Controller1.ButtonR2.pressing()) {
        Intake.spin(reverse, 100,  voltageUnits::volt);
@@ -293,29 +273,24 @@ void usercontrol(void) {
 
 
 /*---------------------------------------------------------------------------*/
+/*                                 MAIN                                      */
+/*---------------------------------------------------------------------------*/
 int main() {
   //set pneumatics to false
   leftFlap.set(false);
   rightFlap.set(false);
   hang.set(false);
   intake_piston.set(true);
-
   //set default catapult speed / braking
   Cata.setVelocity(100.0, percent);
   Cata.setStopping(brake);
   Intake.setVelocity(100, percentUnits::pct);
-
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
-
   // Run the pre-autonomous function.
 
   wait(15, msec);
   pre_auton();
-
-  while (true) {
-    wait(100, msec);;
-  }
 }
 /*---------------------------------------------------------------------------*/
