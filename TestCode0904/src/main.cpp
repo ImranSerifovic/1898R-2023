@@ -11,7 +11,7 @@
 // Cata                 motor_group   1, 21           
 // leftFlap             digital_out   G               
 // Inertial5            inertial      5               
-// intake_piston        digital_out   E               
+// intake_piston        digital_out   D               
 // hang                 digital_out   H               
 // rightFlap            digital_out   F               
 // ---- END VEXCODE CONFIGURED DEVICES ----
@@ -83,7 +83,7 @@ int HALFWAY = 2;
 void pre_auton(void) {
   vexcodeInit();
   default_constants();
-  
+  intake_piston.set(true);
   while(auto_started == false){            
     switch(current_auton_selection){       
       case 0:
@@ -118,15 +118,16 @@ void pre_auton(void) {
 void autonomous(void) {
   auto_started = true;
   // all autons start with pulling back the cata ready to fire
-  
+    intake_piston.set(false);
+
   /*TEmporary*/
 
-  Cata.spinFor(start_cata_rotation, degrees);
 
   switch(current_auton_selection){  
     case 0:
-      close_side();
-      //skills();
+      far_side();
+            //close_side();
+      // skills();
       break;        
  }
       
@@ -158,6 +159,8 @@ void PullBackFunc() {
 
   // flips whether we supply air to push out the intake 
   intake_piston.set(!intake_piston.value());
+  Cata.spinFor(113, degrees);
+
 
 }
 /*---------------------------------------------------------------------------*/
@@ -170,34 +173,12 @@ void Flaps() {
     // flips whether flaps are in or out
     leftFlap.set(!leftFlap.value());
     rightFlap.set(!rightFlap.value());
-    intake_piston.set(!intake_piston.value());
 }
 void Hang() {
   hang.set(!hang.value());
 }
 void cataDown() {
-    if (Controller1.ButtonDown.pressing()) {
-      // this button is the less common cata control
-      if(cata_rotation==UP || cata_rotation==HALFWAY) {
-        // pulls cata from all the way up (post-shot) to halfway down,
-        // or halfway down to all the way down (ready to intake)
-        // halfway down is to prevent intaking all the way, allowing
-        // us to move acorns by intaking and outtaking
-        Cata.setVelocity(100, percent); 
-        Cata.spinFor(forward, 52.5, degrees);
-      }
-      else {
-        // velocity @ 30% so the cata has time to shoot and recover from
-        // slight recoil off the foam bracing before the slipgear reengages
-        // which prevents the slipgear from changing its position relative to
-        // the gear on the catapult axle
-        Cata.setVelocity(30, percent); 
-        Cata.spinFor(forward, 75.0, degrees);
-        Cata.setVelocity(100, percent);
-      }
-      cata_rotation+=1;
-      cata_rotation%=3;
-    } 
+
 }
 int counter = 0;
 void cataShoulder() {
@@ -211,13 +192,44 @@ void cataShoulder() {
 /*                              Driver Code                                  */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
+void drive_pls(int volts, bool go_forward) {
+  if(go_forward) {
+    Right1.spin(forward, volts, voltageUnits::volt);
+    Right2.spin(forward, volts, voltageUnits::volt);
+    Left1.spin(forward, volts, voltageUnits::volt);
+    Left2.spin(forward, volts, voltageUnits::volt);
+  }
+  else {
+    Right1.spin(reverse, volts, voltageUnits::volt);
+    Right2.spin(reverse, volts, voltageUnits::volt);
+    Left1.spin(reverse, volts, voltageUnits::volt);
+    Left2.spin(reverse, volts, voltageUnits::volt);
+  }
+}
+
 void usercontrol(void) {
 
-  intake_piston.set(true);
+  intake_piston.set(false);
   if(!auto_started) {
     // for testing and driver skills 
     // (otherwise, this will happen in void autonomous)
-    Cata.spinFor(start_cata_rotation, degrees);
+    // Cata.spinFor(start_cata_rotation, degrees);
+  }
+  Cata.spinFor(113, degrees);
+  intake_piston.set(false);
+  rightFlap.set(true);
+  wait(0.1, seconds);
+  rightFlap.set(false);
+  drive_pls(7, true);
+  wait(0.4, seconds);
+  drive_stop();
+  wait(1, seconds);
+  for(int i = 0; i<44; i++) {
+    Cata.setVelocity(30, percent); 
+    Cata.spinFor(forward, 75.0, degrees);
+    // wait(0.05, seconds);
+    Cata.setVelocity(100, percent); 
+    Cata.spinFor(forward, 105.0, degrees);
   }
 
   while (1) {
@@ -255,11 +267,32 @@ void usercontrol(void) {
       Brain.Screen.clearScreen();
       Brain.Screen.print(counter);
     }
+    else if (Controller1.ButtonDown.pressing()) {
+      // this button is the less common cata control
+      if(cata_rotation==UP || cata_rotation==HALFWAY) {
+        // pulls cata from all the way up (post-shot) to halfway down,
+        // or halfway down to all the way down (ready to intake)
+        // halfway down is to prevent intaking all the way, allowing
+        // us to move acorns by intaking and outtaking
+        Cata.setVelocity(100, percent); 
+        Cata.spinFor(forward, 52.5, degrees);
+      }
+      else {
+        // velocity @ 30% so the cata has time to shoot and recover from
+        // slight recoil off the foam bracing before the slipgear reengages
+        // which prevents the slipgear from changing its position relative to
+        // the gear on the catapult axle
+        Cata.setVelocity(30, percent); 
+        Cata.spinFor(forward, 75.0, degrees);
+        Cata.setVelocity(100, percent);
+      }
+      cata_rotation+=1;
+      cata_rotation%=3;
+    } 
     
     Controller1.ButtonL2.pressed(Flaps);
     Controller1.ButtonLeft.pressed(Hang);
     Controller1.ButtonUp.pressed(PullBackFunc);
-    Controller1.ButtonL1.pressed(cataShoulder);
     /*---------------------------------------------------------------------------*/
     
     //Driving method

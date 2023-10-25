@@ -19,7 +19,7 @@ motor CataMotorB = motor(PORT21, ratio36_1, true);
 motor_group Cata = motor_group(CataMotorA, CataMotorB);
 digital_out leftFlap = digital_out(Brain.ThreeWirePort.G);
 inertial Inertial5 = inertial(PORT5);
-digital_out intake_piston = digital_out(Brain.ThreeWirePort.E);
+digital_out intake_piston = digital_out(Brain.ThreeWirePort.D);
 digital_out hang = digital_out(Brain.ThreeWirePort.H);
 digital_out rightFlap = digital_out(Brain.ThreeWirePort.F);
 
