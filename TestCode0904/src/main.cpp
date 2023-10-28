@@ -316,7 +316,7 @@ int main() {
   intake_piston.set(true);
   //set default catapult speed / braking
   Cata.setVelocity(100.0, percent);
-  Cata.setStopping(brake);
+  Cata.setStopping(hold);
   Intake.setVelocity(100, percentUnits::pct);
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
