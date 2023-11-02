@@ -71,7 +71,7 @@ PORT3,     -PORT4,
 /*---------------------------------------------------------------------------*/
 int current_auton_selection = 0;                                             
 bool auto_started = false;                                                   
-int start_cata_rotation = 113; 
+int start_cata_rotation = 111; 
 int cata_rotation = 0;
 int DOWN = 0;
 int UP = 1;
@@ -125,9 +125,9 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      far_side();
-            //close_side();
-      // skills();
+      // far_side();
+      // close_side();
+      skills();
       break;        
  }
       
@@ -213,9 +213,11 @@ void usercontrol(void) {
   if(!auto_started) {
     // for testing and driver skills 
     // (otherwise, this will happen in void autonomous)
-    // Cata.spinFor(start_cata_rotation, degrees);
+    Cata.spinFor(start_cata_rotation, degrees);
   }
-  Cata.spinFor(113, degrees);
+
+  /* DRIVER SKILLS CODE!!!
+
   intake_piston.set(false);
   rightFlap.set(true);
   wait(0.1, seconds);
@@ -231,6 +233,8 @@ void usercontrol(void) {
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
+
+  */
 
   while (1) {
     /*---------------------------------------------------------------------------*/
@@ -252,20 +256,16 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     
     if(Controller1.ButtonL1.pressing()) {
-      // velocity @ 30% so the cata has time to shoot and recover from
+      // velocity @ 17% so the cata has time to shoot and recover from
       // slight recoil off the foam bracing before the slipgear reengages
       // which prevents the slipgear from changing its position relative to
       // the gear on the catapult axle
       // the cata starts down, spins until slip...
-      Cata.setVelocity(30, percent); 
+      Cata.setVelocity(17, percent); 
       Cata.spinFor(forward, 75.0, degrees);
-
-      // and spins back so we can intake, all in ~0.75 seconds!
+      // and spins back so we can intake, all in ~0.8 seconds (slowed for matchloaders)!
       Cata.setVelocity(100, percent); 
       Cata.spinFor(forward, 105.0, degrees);
-      counter++;
-      Brain.Screen.clearScreen();
-      Brain.Screen.print(counter);
     }
     else if (Controller1.ButtonDown.pressing()) {
       // this button is the less common cata control

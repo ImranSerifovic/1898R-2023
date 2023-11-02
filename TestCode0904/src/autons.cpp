@@ -61,7 +61,7 @@ void setVelocity(int percentage) {
 /*                                   Skills                                  */
 /*---------------------------------------------------------------------------*/
 void skills(){
-  Cata.spinFor(113, degrees);
+  Cata.spinFor(111, degrees);
   intake_piston.set(false);
   rightFlap.set(true);
   wait(0.1, seconds);
@@ -70,14 +70,19 @@ void skills(){
   wait(0.4, seconds);
   drive_stop();
   wait(1, seconds);
-  for(int i = 0; i<40; i++) {
-    Cata.setVelocity(30, percent); 
+  for(int i = 0; i<2; i++) {
+    // velocity @ 17% so the cata has time to shoot and recover from
+    // slight recoil off the foam bracing before the slipgear reengages
+    // which prevents the slipgear from changing its position relative to
+    // the gear on the catapult axle
+    // the cata starts down, spins until slip...
+    Cata.setVelocity(17, percent); 
     Cata.spinFor(forward, 75.0, degrees);
-    // wait(0.05, seconds);
+    // and spins back so we can intake, all in ~0.8 seconds (slowed for matchloaders)!
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
-  Cata.setVelocity(30, percent); 
+  Cata.setVelocity(25, percent); 
   Cata.spinFor(forward, 75.0, degrees);
     // wait(0.05, seconds);
   Cata.setVelocity(100, percent); 
@@ -117,8 +122,8 @@ void close_side(){
   //Drive in front of goal and score
   intake_piston.set(false);
   wait(0.5, seconds);
-  Cata.spinFor(113, degrees);
-  chassis.drive_distance(134);
+  Cata.spinFor(111, degrees);
+  chassis.drive_distance(136);
   chassis.turn_to_angle(270);
   Intake.spin(reverse);
   wait(0.4, seconds);
@@ -133,7 +138,7 @@ void close_side(){
   //Back up, point towards the match load zone, and drive over there
   chassis.drive_distance(-62);
   chassis.turn_to_angle(214);
-  chassis.drive_distance(140);
+  chassis.drive_distance(131);
   drive(12, true);
   wait(0.1, seconds);
   drive_stop();
@@ -141,15 +146,14 @@ void close_side(){
   chassis.turn_to_angle(142);
   // intake_piston.set(true);
   rightFlap.set(true);            
-  Right1.spin(forward, 6, voltageUnits::volt);
-  Right2.spin(forward, 6, voltageUnits::volt);                                                                                            
+  Right1.spin(forward, 11, voltageUnits::volt);
+  Right2.spin(forward, 11, voltageUnits::volt);                                                                                            
   wait(0.3, seconds);
   Right1.spin(forward, 12, voltageUnits::volt);
   Right2.spin(forward, 12, voltageUnits::volt);   
   Right1.stop();
   Right2.stop();
   rightFlap.set(false);
-  
   // intake_piston.set(false);
   /*RightFlap.set(true);
 
@@ -157,10 +161,11 @@ void close_side(){
   Left2.spin(forward, 6, voltageUnits::volt);
 */
   wait(0.1, seconds);
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(100);
+  chassis.turn_to_angle(98);
+  chassis.drive_distance(102);
   leftFlap.set(true);
 }
+
 
 void far_side() {
   intake_piston.set(false);
