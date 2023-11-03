@@ -72,10 +72,7 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;                                             
 bool auto_started = false;                                                   
 int start_cata_rotation = 111; 
-int cata_rotation = 0;
-int DOWN = 0;
-int UP = 1;
-int HALFWAY = 2;                                              
+bool down = true;                                            
 /*---------------------------------------------------------------------------*/
 /*                            PRE-AUTON                                      */
 /*---------------------------------------------------------------------------*/
@@ -125,9 +122,9 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      // far_side();
+      far_side();
       // close_side();
-      skills();
+      // skills();
       break;        
  }
       
@@ -227,7 +224,7 @@ void usercontrol(void) {
   drive_stop();
   wait(1, seconds);
   for(int i = 0; i<44; i++) {
-    Cata.setVelocity(30, percent); 
+    Cata.setVelocity(20, percent); 
     Cata.spinFor(forward, 75.0, degrees);
     // wait(0.05, seconds);
     Cata.setVelocity(100, percent); 
@@ -269,7 +266,7 @@ void usercontrol(void) {
     }
     else if (Controller1.ButtonDown.pressing()) {
       // this button is the less common cata control
-      if(cata_rotation==UP || cata_rotation==HALFWAY) {
+      if(!down) {
         // pulls cata from all the way up (post-shot) to halfway down,
         // or halfway down to all the way down (ready to intake)
         // halfway down is to prevent intaking all the way, allowing
@@ -282,12 +279,12 @@ void usercontrol(void) {
         // slight recoil off the foam bracing before the slipgear reengages
         // which prevents the slipgear from changing its position relative to
         // the gear on the catapult axle
-        Cata.setVelocity(30, percent); 
+        Cata.setVelocity(17, percent); 
         Cata.spinFor(forward, 75.0, degrees);
         Cata.setVelocity(100, percent);
+        Cata.spinFor(forward, 52.5, degrees);
       }
-      cata_rotation+=1;
-      cata_rotation%=3;
+      down = !down;
     } 
     
     Controller1.ButtonL2.pressed(Flaps);

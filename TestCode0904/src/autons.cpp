@@ -64,7 +64,7 @@ void skills(){
   Cata.spinFor(111, degrees);
   intake_piston.set(false);
   rightFlap.set(true);
-  wait(0.1, seconds);
+  wait(1, seconds);
   rightFlap.set(false);
   drive(7, true);
   wait(0.4, seconds);
@@ -170,7 +170,7 @@ void close_side(){
 void far_side() {
   intake_piston.set(false);
   wait(0.5, seconds);
-  Cata.spinFor(113, degrees);
+  Cata.spinFor(61, degrees);
   chassis.drive_distance(134);
   chassis.turn_to_angle(90);
   Intake.spin(reverse);
@@ -185,6 +185,11 @@ void far_side() {
   chassis.set_turn_exit_conditions(2.5, 300, 800);
   //Back up, point towards the match load zone, and drive over there
   chassis.drive_distance(-62);
+  chassis.turn_to_angle(230);
+  Intake.spin(forward);
+  chassis.drive_distance(10);
+
+  Cata.spinFor(50, degrees);
 }
 
 /*---------------------------------------------------------------------------*/      
