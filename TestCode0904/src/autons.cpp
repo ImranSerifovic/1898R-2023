@@ -116,7 +116,7 @@ void skills(){
   
 }
 /*---------------------------------------------------------------------------*/
-/*                            Launch Side AWP                                */
+/*                            Close Side AWP                                 */
 /*---------------------------------------------------------------------------*/
 void close_side(){
   //Drive in front of goal and score
@@ -165,13 +165,15 @@ void close_side(){
   chassis.drive_distance(102);
   leftFlap.set(true);
 }
-
+/*---------------------------------------------------------------------------*/
+/*                            Far Side AWP                                   */
+/*---------------------------------------------------------------------------*/
 
 void far_side() {
   intake_piston.set(false);
   wait(0.5, seconds);
   Cata.spinFor(61, degrees);
-  chassis.drive_distance(134);
+  chassis.drive_distance(132);
   chassis.turn_to_angle(90);
   Intake.spin(reverse);
   wait(0.4, seconds);
@@ -185,11 +187,31 @@ void far_side() {
   chassis.set_turn_exit_conditions(2.5, 300, 800);
   //Back up, point towards the match load zone, and drive over there
   chassis.drive_distance(-62);
-  chassis.turn_to_angle(230);
+  chassis.turn_to_angle(233);
   Intake.spin(forward);
-  chassis.drive_distance(10);
+  chassis.drive_distance(22);
+  wait(0.1, seconds);
+  Intake.stop();
+  chassis.turn_to_angle(80);
+  chassis.drive_distance(40,90);
+  Intake.spin(reverse);
+  drive(12,true);
+  wait(0.3,seconds);
+  drive_stop();
+  chassis.turn_to_angle(225);
+  chassis.drive_distance(50);
 
-  Cata.spinFor(50, degrees);
+  /*drive(12, true);
+  wait(0.4, seconds);
+  Intake.spin(reverse);
+  wait(0.4, seconds);
+  Intake.stop();
+  drive_stop();
+  chassis.drive_distance(-15);
+  */
+
+
+  //Cata.spinFor(50, degrees);
 }
 
 /*---------------------------------------------------------------------------*/      
