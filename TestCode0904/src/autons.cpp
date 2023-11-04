@@ -61,16 +61,23 @@ void setVelocity(int percentage) {
 /*                                   Skills                                  */
 /*---------------------------------------------------------------------------*/
 void skills(){
+
+  // Note: This section of code is in driver skills too...
   Cata.spinFor(111, degrees);
+  // expand intake at beginning:
   intake_piston.set(false);
+  // hit acorn onto close goal:
   rightFlap.set(true);
   wait(1, seconds);
   rightFlap.set(false);
+  // drive to touch match load bar:
   drive(7, true);
   wait(0.4, seconds);
   drive_stop();
+
   wait(1, seconds);
-  for(int i = 0; i<2; i++) {
+  // shoot all 44 match loads:
+  for(int i = 0; i<44; i++) {
     // velocity @ 17% so the cata has time to shoot and recover from
     // slight recoil off the foam bracing before the slipgear reengages
     // which prevents the slipgear from changing its position relative to
@@ -78,63 +85,73 @@ void skills(){
     // the cata starts down, spins until slip...
     Cata.setVelocity(17, percent); 
     Cata.spinFor(forward, 75.0, degrees);
-    // and spins back so we can intake, all in ~0.8 seconds (slowed for matchloaders)!
+    // and spins back so we can intake, all in ~0.9 seconds (slowed down extra for matchloaders)!
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
   Cata.setVelocity(25, percent); 
   Cata.spinFor(forward, 75.0, degrees);
-    // wait(0.05, seconds);
   Cata.setVelocity(100, percent); 
+  // (pull down cata again so we can drive under elevation bar:)
   Cata.spinFor(forward, 90.0, degrees);
+  //...here is when driver skills automated tasks end
+
+  // score our two preloads:
   chassis.drive_distance(-20, -125);
   chassis.drive_distance(-60);
   setVelocity(100);
   drive(12, false);
   wait(0.8, seconds);
   drive_stop();
+
+  // Drive to other side of field:
   chassis.drive_distance(67, 180);
   chassis.drive_distance(210, 188);
   chassis.drive_distance(55, 172);
+  // drive so we face goal, to effectively push in acorns:
   chassis.drive_distance(20, 60);
   chassis.drive_distance(80);
   chassis.drive_distance(50, 170);
+  // push:
   leftFlap.set(true);
   rightFlap.set(true);
   drive(12, true);
   wait(1.5, seconds);
   drive_stop();
+  // push again further along the goal:
   chassis.drive_distance(-80);
   chassis.turn_to_angle(150);
-  chassis.drive_distance(40, 180);
+  chassis.drive_distance(40, 165);
   drive(12, true);
-  // chassis.drive_distance(200);fl
-  // chassis.turn_to_angle(-75);
-  // chassis.drive_distance(40);
-  // flaps.set(true);
-  // chassis.drive_distance(180, 15);
-  
 }
 /*---------------------------------------------------------------------------*/
 /*                            Close Side AWP                                 */
 /*---------------------------------------------------------------------------*/
 void close_side(){
-  //Drive in front of goal and score
+  //Drive in front of goal and score...
+
+  // expand intake:
   intake_piston.set(false);
+
   wait(0.5, seconds);
+  // pull down cata:
   Cata.spinFor(111, degrees);
+
   chassis.drive_distance(136);
   chassis.turn_to_angle(270);
   Intake.spin(reverse);
   wait(0.4, seconds);
-  Intake.stop();
+  Intake.stop();  
   Right1.spin(forward, 12, voltageUnits::volt);
   Right2.spin(forward, 12, voltageUnits::volt);
   Left1.spin(forward, 12, voltageUnits::volt);
   Left2.spin(forward, 12, voltageUnits::volt);
   wait(0.4, seconds);
   drive_stop();
+  // acorn preload scored!
+
   chassis.set_turn_exit_conditions(2.5, 300, 800);
+  
   //Back up, point towards the match load zone, and drive over there
   chassis.drive_distance(-62);
   chassis.turn_to_angle(214);
@@ -142,10 +159,11 @@ void close_side(){
   drive(12, true);
   wait(0.1, seconds);
   drive_stop();
+
+  //Descore match load acorn with our flap:
   rightFlap.set(true);            
   chassis.turn_to_angle(142);
-  // intake_piston.set(true);
-  rightFlap.set(true);            
+  // slight left turn, engage right side only, slightly under max voltage for best results:
   Right1.spin(forward, 11, voltageUnits::volt);
   Right2.spin(forward, 11, voltageUnits::volt);                                                                                            
   wait(0.3, seconds);
@@ -154,13 +172,8 @@ void close_side(){
   Right1.stop();
   Right2.stop();
   rightFlap.set(false);
-  // intake_piston.set(false);
-  /*RightFlap.set(true);
-
-  Left1.spin(forward, 6, voltageUnits::volt);
-  Left2.spin(forward, 6, voltageUnits::volt);
-*/
   wait(0.1, seconds);
+  // touch elevation bar with flap:
   chassis.turn_to_angle(98);
   chassis.drive_distance(102);
   leftFlap.set(true);
@@ -170,9 +183,12 @@ void close_side(){
 /*---------------------------------------------------------------------------*/
 
 void far_side() {
+  // expand intake at beginning:
   intake_piston.set(false);
   wait(0.5, seconds);
+  // pull cata halfway down (so we can intake and outtake acorns without them getting in cata):
   Cata.spinFor(61, degrees);
+  // drive to net and score preload:
   chassis.drive_distance(132);
   chassis.turn_to_angle(90);
   Intake.spin(reverse);
@@ -184,23 +200,30 @@ void far_side() {
   Left2.spin(forward, 12, voltageUnits::volt);
   wait(0.4, seconds);
   drive_stop();
+  //scored!
+
   chassis.set_turn_exit_conditions(2.5, 300, 800);
-  //Back up, point towards the match load zone, and drive over there
+  
+  // pick up acorn by barrier bar:
   chassis.drive_distance(-62);
   chassis.turn_to_angle(233);
+  // intake acorn:
   Intake.spin(forward);
   chassis.drive_distance(22);
   wait(0.1, seconds);
   Intake.stop();
+  // get other acorns nearby:
   chassis.turn_to_angle(80);
   chassis.drive_distance(40,90);
+  // outtake acorn:
   Intake.spin(reverse);
   drive(12,true);
   wait(0.3,seconds);
   drive_stop();
   chassis.turn_to_angle(225);
   chassis.drive_distance(50);
-
+// TODO: shorten auton to fit in more acorn scoring (may or may not be possible with our 
+// bot, but we have time to try :) )
   /*drive(12, true);
   wait(0.4, seconds);
   Intake.spin(reverse);
