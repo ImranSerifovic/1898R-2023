@@ -240,7 +240,7 @@ void usercontrol(void) {
     if (Controller1.ButtonR1.pressing()) {
       Intake.spin(forward, 100,  voltageUnits::volt);
       
-
+  
     } 
     else if (Controller1.ButtonR2.pressing()) {
        Intake.spin(reverse, 100,  voltageUnits::volt);
