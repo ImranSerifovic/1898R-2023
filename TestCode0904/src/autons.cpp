@@ -72,7 +72,7 @@ void skills(){
   rightFlap.set(false);
   // drive to touch match load bar:
   drive(7, true);
-  wait(0.4, seconds);
+  wait(0.45, seconds);
   drive_stop();
 
   wait(1, seconds);
