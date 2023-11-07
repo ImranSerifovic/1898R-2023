@@ -14,6 +14,7 @@
 // intake_piston        digital_out   D               
 // hang                 digital_out   H               
 // rightFlap            digital_out   F               
+// Blocker              motor         11              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
@@ -123,7 +124,7 @@ void autonomous(void) {
   switch(current_auton_selection){  
     case 0:
       //far_side();
-      // close_side();
+       //close_side();
        skills();
       break;        
  }
@@ -182,6 +183,21 @@ void cataShoulder() {
 
 }
 /*---------------------------------------------------------------------------*/
+/*                              Blocker                                      */
+/*---------------------------------------------------------------------------*/
+int blockerCounter = 1;
+void BlockerActivation() {
+  blockerCounter++;
+
+  if(blockerCounter % 2  == 0) {
+    Blocker.spinFor(forward, 165, degrees);;
+  }
+  if(blockerCounter % 2  == 1) {
+    Blocker.spinToPosition(0,degrees);
+  }
+  
+}
+/*---------------------------------------------------------------------------*/
 
 
 /*---------------------------------------------------------------------------*/
@@ -205,7 +221,9 @@ void drive_pls(int volts, bool go_forward) {
 }
 
 void usercontrol(void) {
-
+  Blocker.setVelocity(100, percent);
+  Blocker.setBrake(hold);
+  Blocker.stop();
   intake_piston.set(false);
   if(!auto_started) {
     // for testing and driver skills 
@@ -220,7 +238,7 @@ void usercontrol(void) {
   wait(0.1, seconds);
   rightFlap.set(false);
   drive_pls(7, true);
-  wait(0.55, seconds);
+  wait(0.62, seconds);
   drive_stop();
   wait(1, seconds);
   for(int i = 0; i<44; i++) {
@@ -251,6 +269,8 @@ void usercontrol(void) {
     else {
       Intake.stop();
     }
+
+    
     /*---------------------------------------------------------------------------*/
     /*                         Binding Functions                                 */
     /*---------------------------------------------------------------------------*/
@@ -293,6 +313,7 @@ void usercontrol(void) {
     Controller1.ButtonL2.pressed(Flaps);
     Controller1.ButtonLeft.pressed(Hang);
     Controller1.ButtonUp.pressed(PullBackFunc);
+    Controller1.ButtonA.pressed(BlockerActivation);
     /*---------------------------------------------------------------------------*/
     
     //Driving method

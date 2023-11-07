@@ -22,6 +22,7 @@ inertial Inertial5 = inertial(PORT5);
 digital_out intake_piston = digital_out(Brain.ThreeWirePort.D);
 digital_out hang = digital_out(Brain.ThreeWirePort.H);
 digital_out rightFlap = digital_out(Brain.ThreeWirePort.F);
+motor Blocker = motor(PORT11, ratio18_1, true);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

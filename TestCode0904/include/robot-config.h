@@ -15,6 +15,7 @@ extern inertial Inertial5;
 extern digital_out intake_piston;
 extern digital_out hang;
 extern digital_out rightFlap;
+extern motor Blocker;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
