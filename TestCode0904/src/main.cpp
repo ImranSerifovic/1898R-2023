@@ -214,13 +214,13 @@ void usercontrol(void) {
   }
 
    //DRIVER SKILLS CODE!!!
-  /*
-  intake_piston.set(false);
+  
+  /*intake_piston.set(false);
   rightFlap.set(true);
   wait(0.1, seconds);
   rightFlap.set(false);
   drive_pls(7, true);
-  wait(0.4, seconds);
+  wait(0.55, seconds);
   drive_stop();
   wait(1, seconds);
   for(int i = 0; i<44; i++) {
