@@ -9,7 +9,7 @@
 // Controller1          controller                    
 // Intake               motor         4               
 // Cata                 motor_group   1, 21           
-// leftFlap             digital_out   G               
+// leftFlap             digital_out   C               
 // Inertial5            inertial      5               
 // intake_piston        digital_out   D               
 // hang                 digital_out   H               
@@ -124,8 +124,8 @@ void autonomous(void) {
   switch(current_auton_selection){  
     case 0:
       //far_side();
-       //close_side();
-       skills();
+       close_side();
+       //skills();
       break;        
  }
       
@@ -221,6 +221,8 @@ void drive_pls(int volts, bool go_forward) {
 }
 
 void usercontrol(void) {
+  leftFlap.set(false);  
+  rightFlap.set(false);
   Blocker.setVelocity(100, percent);
   Blocker.setBrake(hold);
   Blocker.stop();
@@ -274,7 +276,7 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     /*                         Binding Functions                                 */
     /*---------------------------------------------------------------------------*/
-    
+    //shoot cata
     if(Controller1.ButtonL1.pressing()) {
       // velocity @ 17% so the cata has time to shoot and recover from
       // slight recoil off the foam bracing before the slipgear reengages
@@ -313,7 +315,7 @@ void usercontrol(void) {
     Controller1.ButtonL2.pressed(Flaps);
     Controller1.ButtonLeft.pressed(Hang);
     Controller1.ButtonUp.pressed(PullBackFunc);
-    Controller1.ButtonA.pressed(BlockerActivation);
+    Controller1.ButtonB.pressed(BlockerActivation);
     /*---------------------------------------------------------------------------*/
     
     //Driving method
