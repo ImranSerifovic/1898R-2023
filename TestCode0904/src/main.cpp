@@ -67,7 +67,7 @@ PORT3,     -PORT4,
 5.5
 
 );
-/*---------------------------------------------------------------------------*/
+/*-------------------------------w--------------------------------------------*/
 /*                           Variable Declarations                           */
 /*---------------------------------------------------------------------------*/
 int current_auton_selection = 0;                                             
@@ -123,9 +123,9 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      //far_side();
-       close_side();
-       //skills();
+      far_side();
+       //close_side();
+       //();
       break;        
  }
       
@@ -240,14 +240,14 @@ void usercontrol(void) {
   wait(0.1, seconds);
   rightFlap.set(false);
   drive_pls(7, true);
-  wait(0.62, seconds);
+  wait(0.51, seconds);
   drive_stop();
   wait(1, seconds);
   for(int i = 0; i<44; i++) {
-    Cata.setVelocity(40, percent); 
+    Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 75.0, degrees);
     // wait(0.05, seconds);
-    Cata.setVelocity(100, percent); 
+    Cata.setVelocity(20, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
   Cata.setVelocity(40, percent); 

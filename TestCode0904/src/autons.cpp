@@ -179,7 +179,7 @@ void close_side(){
   leftFlap.set(true);
 }
 /*---------------------------------------------------------------------------*/
-/*                            Far Side AWP                                   */
+/*                            Far Side                                       */
 /*---------------------------------------------------------------------------*/
 
 void far_side() {
@@ -187,10 +187,12 @@ void far_side() {
   intake_piston.set(false);
   wait(0.5, seconds);
   // pull cata halfway down (so we can intake and outtake acorns without them getting in cata):
-  Cata.spinFor(61, degrees);
+  Cata.spinFor(70, degrees);
   // drive to net and score preload:
   chassis.drive_distance(132);
+  chassis.set_turn_exit_conditions(4, 300, 3000);
   chassis.turn_to_angle(90);
+  chassis.set_turn_exit_conditions(2, 300, 3000);
   Intake.spin(reverse);
   wait(0.4, seconds);
   Intake.stop();
@@ -214,14 +216,40 @@ void far_side() {
   Intake.stop();
   // get other acorns nearby:
   chassis.turn_to_angle(80);
-  chassis.drive_distance(40,90);
+  chassis.drive_distance(45,90);
   // outtake acorn:
   Intake.spin(reverse);
-  drive(12,true);
+  wait(0.3, seconds);
+  Intake.stop();
+  //back up and point at the other
+  chassis.drive_distance(-45,-35);
+  Intake.spin(forward);
+  chassis.drive_distance(17);
+  wait(0.2, seconds);
+  Intake.stop();
+
+  //rotate towards goal to score both
+  Right1.spin(forward, -10.5, voltageUnits::volt);
+  Right2.spin(forward, -10.5, voltageUnits::volt); 
+  Left1.spin(forward, 9, voltageUnits::volt);
+  Left2.spin(forward, 9, voltageUnits::volt); 
+  wait(0.47, seconds);
+  drive_stop();
+  /*rightFlap.set(true);
+  leftFlap.set(true);
+  drive(12, true);
+  wait(0.6, seconds);
+  */
+
+
+  //score second
+  /*wait(0.2, seconds);
+  drive(10,true);
   wait(0.3,seconds);
   drive_stop();
-  chassis.turn_to_angle(225);
-  chassis.drive_distance(50);
+  chassis.drive_distance()
+  */
+  
 // TODO: shorten auton to fit in more acorn scoring (may or may not be possible with our 
 // bot, but we have time to try :) )
   /*drive(12, true);
