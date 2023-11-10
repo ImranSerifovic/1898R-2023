@@ -208,7 +208,7 @@ void far_side() {
   
   // pick up acorn by barrier bar:
   chassis.drive_distance(-62);
-  chassis.turn_to_angle(233);
+  chassis.turn_to_angle(228);
   // intake acorn:
   Intake.spin(forward);
   chassis.drive_distance(22);
@@ -216,25 +216,45 @@ void far_side() {
   Intake.stop();
   // get other acorns nearby:
   chassis.turn_to_angle(80);
-  chassis.drive_distance(45,90);
+  chassis.drive_distance(30,90);
   // outtake acorn:
+  Intake.spin(reverse);
+  wait(0.6, seconds);
+  Intake.stop();
+  //get closer intake
+  chassis.turn_to_angle(0);
+  Intake.spin(forward);
+  chassis.drive_distance(20);
+  wait(0.3, seconds);
+  Intake.stop();
+  chassis.turn_to_angle(90);
   Intake.spin(reverse);
   wait(0.3, seconds);
   Intake.stop();
+  rightFlap.set(true);
+  leftFlap.set(true);
+  intake_piston.set(false);
+  drive(12,true);
+  Cata.spinFor(43, degrees);
   //back up and point at the other
-  chassis.drive_distance(-45,-35);
+  /*chassis.turn_to_angle(95);
+  chassis.turn_to_angle(270);
+  chassis.drive_distance(20,-50);
   Intake.spin(forward);
-  chassis.drive_distance(17);
-  wait(0.2, seconds);
-  Intake.stop();
-
+  chassis.drive_distance(15,-54);
+  wait(0.2,seconds);
+  Intake.stop(); */
   //rotate towards goal to score both
-  Right1.spin(forward, -10.5, voltageUnits::volt);
-  Right2.spin(forward, -10.5, voltageUnits::volt); 
-  Left1.spin(forward, 9, voltageUnits::volt);
-  Left2.spin(forward, 9, voltageUnits::volt); 
-  wait(0.47, seconds);
+  /*
+  Right1.spin(forward, -9, voltageUnits::volt);
+  Right2.spin(forward, -9, voltageUnits::volt); 
+  Left1.spin(forward, 7, voltageUnits::volt);
+  Left2.spin(forward, 7, voltageUnits::volt); 
+  wait(0.49, seconds);
   drive_stop();
+  */
+
+
   /*rightFlap.set(true);
   leftFlap.set(true);
   drive(12, true);

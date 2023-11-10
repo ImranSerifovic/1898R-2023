@@ -123,8 +123,8 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-      far_side();
-       //close_side();
+      //  far_side();
+       close_side();
        //();
       break;        
  }
@@ -185,17 +185,16 @@ void cataShoulder() {
 /*---------------------------------------------------------------------------*/
 /*                              Blocker                                      */
 /*---------------------------------------------------------------------------*/
-int blockerCounter = 1;
+bool blockerCounter = true;
 void BlockerActivation() {
-  blockerCounter++;
-
-  if(blockerCounter % 2  == 0) {
+  if(blockerCounter) {
     Blocker.spinFor(forward, 165, degrees);;
   }
-  if(blockerCounter % 2  == 1) {
+  else {
     Blocker.spinToPosition(0,degrees);
   }
-  
+  blockerCounter=!blockerCounter;
+
 }
 /*---------------------------------------------------------------------------*/
 
@@ -315,7 +314,7 @@ void usercontrol(void) {
     Controller1.ButtonL2.pressed(Flaps);
     Controller1.ButtonLeft.pressed(Hang);
     Controller1.ButtonUp.pressed(PullBackFunc);
-    Controller1.ButtonB.pressed(BlockerActivation);
+    Controller1.ButtonY.pressed(BlockerActivation);
     /*---------------------------------------------------------------------------*/
     
     //Driving method
