@@ -117,15 +117,15 @@ void autonomous(void) {
   auto_started = true;
   // all autons start with pulling back the cata ready to fire
     intake_piston.set(false);
-
+ 
   /*TEmporary*/
 
 
   switch(current_auton_selection){  
     case 0:
-      //  far_side();
-       close_side();
-       //();
+        far_side();
+       //close_side();
+       //skills();
       break;        
  }
       
@@ -246,7 +246,7 @@ void usercontrol(void) {
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 75.0, degrees);
     // wait(0.05, seconds);
-    Cata.setVelocity(20, percent); 
+    Cata.setVelocity(30, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
   Cata.setVelocity(40, percent); 
@@ -286,7 +286,7 @@ void usercontrol(void) {
       Cata.spinFor(forward, 75.0, degrees);
       // and spins back so we can intake, all in ~0.8 seconds (slowed for matchloaders)!
       Cata.setVelocity(100, percent); 
-      Cata.spinFor(forward, 105.0, degrees);
+      Cata.spinFor(forward, 105, degrees);
     }
     else if (Controller1.ButtonDown.pressing()) {
       // this button is the less common cata control
@@ -296,7 +296,7 @@ void usercontrol(void) {
         // halfway down is to prevent intaking all the way, allowing
         // us to move acorns by intaking and outtaking
         Cata.setVelocity(100, percent); 
-        Cata.spinFor(forward, 52.5, degrees);
+        Cata.spinFor(forward, 46, degrees);
       }
       else {
         // velocity @ 30% so the cata has time to shoot and recover from
@@ -306,7 +306,7 @@ void usercontrol(void) {
         Cata.setVelocity(17, percent); 
         Cata.spinFor(forward, 75.0, degrees);
         Cata.setVelocity(100, percent);
-        Cata.spinFor(forward, 52.5, degrees);
+        Cata.spinFor(forward, 46, degrees);
       }
       down = !down;
     } 

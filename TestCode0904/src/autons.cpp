@@ -76,6 +76,8 @@ void skills(){
   drive_stop();
 
   wait(1, seconds);
+
+  /*
   // shoot all 44 match loads:
   for(int i = 0; i<44; i++) {
     // velocity @ 17% so the cata has time to shoot and recover from
@@ -89,12 +91,15 @@ void skills(){
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
-  Cata.setVelocity(25, percent); 
-  Cata.spinFor(forward, 75.0, degrees);
+
+  //Cata.setVelocity(25, percent); 
+  //Cata.spinFor(forward, 75.0, degrees);
   Cata.setVelocity(100, percent); 
   // (pull down cata again so we can drive under elevation bar:)
   Cata.spinFor(forward, 90.0, degrees);
   //...here is when driver skills automated tasks end
+  */
+
 
   // score our two preloads:
   chassis.drive_distance(-20, -125);
@@ -112,6 +117,8 @@ void skills(){
   chassis.drive_distance(20, 60);
   chassis.drive_distance(80);
   chassis.drive_distance(50, 170);
+   chassis.set_drive_exit_conditions(5, 600, 5000);
+   chassis.set_turn_exit_conditions(5, 600, 5000);
   // push:
   leftFlap.set(true);
   rightFlap.set(true);
@@ -119,9 +126,10 @@ void skills(){
   wait(1.5, seconds);
   drive_stop();
   // push again further along the goal:
+
   chassis.drive_distance(-80);
-  chassis.turn_to_angle(150);
-  chassis.drive_distance(40, 165);
+  chassis.turn_to_angle(1);
+  chassis.drive_distance(40, 1);
   drive(12, true);
 }
 /*---------------------------------------------------------------------------*/
