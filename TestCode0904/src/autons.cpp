@@ -77,7 +77,7 @@ void skills(){
 
   wait(1, seconds);
 
-  /*
+  
   // shoot all 44 match loads:
   for(int i = 0; i<44; i++) {
     // velocity @ 17% so the cata has time to shoot and recover from
@@ -98,7 +98,7 @@ void skills(){
   // (pull down cata again so we can drive under elevation bar:)
   Cata.spinFor(forward, 90.0, degrees);
   //...here is when driver skills automated tasks end
-  */
+  
 
 
   // score our two preloads:

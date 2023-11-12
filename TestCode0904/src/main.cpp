@@ -123,8 +123,8 @@ void autonomous(void) {
 
   switch(current_auton_selection){  
     case 0:
-        far_side();
-       //close_side();
+        //far_side();
+       close_side();
        //skills();
       break;        
  }
@@ -234,7 +234,7 @@ void usercontrol(void) {
 
    //DRIVER SKILLS CODE!!!
   
-  /*intake_piston.set(false);
+  intake_piston.set(false);
   rightFlap.set(true);
   wait(0.1, seconds);
   rightFlap.set(false);
@@ -249,11 +249,11 @@ void usercontrol(void) {
     Cata.setVelocity(30, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
-  Cata.setVelocity(40, percent); 
+  Cata.setVelocity(60, percent); 
   Cata.spinFor(forward, 75.0, degrees);
   Cata.setVelocity(100, percent); 
   Cata.spinFor(forward, 90.0, degrees);
-  */
+  
 
   while (1) {
     /*---------------------------------------------------------------------------*/
