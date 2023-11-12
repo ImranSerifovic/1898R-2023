@@ -2,6 +2,8 @@
 /*---------------------------------------------------------------------------*/
 /*                              PID Constants                                */
 /*---------------------------------------------------------------------------*/
+int start_cata_rotation_auton = 107;
+
 void default_constants(){
   
   chassis.set_heading_constants(6, .4, 0, 1, 0);
@@ -63,7 +65,7 @@ void setVelocity(int percentage) {
 void skills(){
 
   // Note: This section of code is in driver skills too...
-  Cata.spinFor(111, degrees);
+  Cata.spinFor(start_cata_rotation_auton, degrees);
   // expand intake at beginning:
   intake_piston.set(false);
   // hit acorn onto close goal:
@@ -85,15 +87,15 @@ void skills(){
     // which prevents the slipgear from changing its position relative to
     // the gear on the catapult axle
     // the cata starts down, spins until slip...
-    Cata.setVelocity(17, percent); 
+    Cata.setVelocity(30, percent); 
     Cata.spinFor(forward, 75.0, degrees);
     // and spins back so we can intake, all in ~0.9 seconds (slowed down extra for matchloaders)!
     Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
 
-  //Cata.setVelocity(25, percent); 
-  //Cata.spinFor(forward, 75.0, degrees);
+  Cata.setVelocity(30, percent); 
+  Cata.spinFor(forward, 75.0, degrees);
   Cata.setVelocity(100, percent); 
   // (pull down cata again so we can drive under elevation bar:)
   Cata.spinFor(forward, 90.0, degrees);
@@ -143,7 +145,7 @@ void close_side(){
 
   wait(0.5, seconds);
   // pull down cata:
-  Cata.spinFor(111, degrees);
+  Cata.spinFor(start_cata_rotation_auton, degrees);
 
   chassis.drive_distance(136);
   chassis.turn_to_angle(270);
@@ -243,7 +245,7 @@ void far_side() {
   leftFlap.set(true);
   intake_piston.set(false);
   drive(12,true);
-  Cata.spinFor(43, degrees);
+  Cata.spinFor(37, degrees);
   //back up and point at the other
   /*chassis.turn_to_angle(95);
   chassis.turn_to_angle(270);
