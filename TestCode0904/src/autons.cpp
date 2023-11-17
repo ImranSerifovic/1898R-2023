@@ -87,14 +87,14 @@ void skills(){
     // which prevents the slipgear from changing its position relative to
     // the gear on the catapult axle
     // the cata starts down, spins until slip...
-    Cata.setVelocity(30, percent); 
+    Cata.setVelocity(100, percent); 
     Cata.spinFor(forward, 75.0, degrees);
     // and spins back so we can intake, all in ~0.9 seconds (slowed down extra for matchloaders)!
-    Cata.setVelocity(100, percent); 
+    Cata.setVelocity(17, percent); 
     Cata.spinFor(forward, 105.0, degrees);
   }
 
-  Cata.setVelocity(30, percent); 
+  Cata.setVelocity(17, percent); 
   Cata.spinFor(forward, 75.0, degrees);
   Cata.setVelocity(100, percent); 
   // (pull down cata again so we can drive under elevation bar:)
@@ -133,6 +133,11 @@ void skills(){
   chassis.turn_to_angle(1);
   chassis.drive_distance(40, 1);
   drive(12, true);
+
+  chassis.drive_distance(-60);
+  chassis.drive_distance(100, 1);
+  chassis.drive_distance(-60);
+  chassis.drive_distance(100, 1);
 }
 /*---------------------------------------------------------------------------*/
 /*                            Close Side AWP                                 */
