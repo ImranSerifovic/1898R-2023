@@ -185,15 +185,15 @@ void cataShoulder() {
 /*---------------------------------------------------------------------------*/
 /*                              Blocker                                      */
 /*---------------------------------------------------------------------------*/
-bool blockerCounter = true;
+bool blockerDown = true;
 void BlockerActivation() {
-  if(blockerCounter) {
+  if(blockerDown) {
     Blocker.spinFor(forward, 165, degrees);;
   }
   else {
     Blocker.spinToPosition(0,degrees);
   }
-  blockerCounter=!blockerCounter;
+  blockerDown=!blockerDown;
 
 }
 /*---------------------------------------------------------------------------*/
